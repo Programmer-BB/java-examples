@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 /**
- * 动态代理
+ * JDK动态代理
  *
  * @author BB
  */
@@ -12,7 +12,10 @@ public class DynamicProxy {
 
     public static void main(String[] args) {
 
-//        proxyByInterface();
+        // 为接口生成代理实现类
+        proxyByInterface();
+
+        // 为类生成代理类
         proxyByClass();
     }
 
