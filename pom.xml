@@ -13,6 +13,7 @@
     <modules>
         <module>jdk</module>
         <module>mybatis</module>
+        <module>mybatis-spring</module>
     </modules>
 
     <properties>
@@ -25,12 +26,13 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
+                <version>2.3.1.RELEASE</version>
             </dependency>
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
-                <scope>test</scope>
+                <version>2.3.1.RELEASE</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
