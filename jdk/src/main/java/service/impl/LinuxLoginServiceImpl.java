@@ -3,7 +3,6 @@ package service.impl;
 import lombok.extern.slf4j.Slf4j;
 import model.LoginInfo;
 import model.ServerInfo;
-import org.springframework.stereotype.Service;
 import service.LoginService;
 
 /**
@@ -13,7 +12,6 @@ import service.LoginService;
  * @create 2021/2/5
  */
 @Slf4j
-@Service
 public class LinuxLoginServiceImpl implements LoginService {
 
     @Override

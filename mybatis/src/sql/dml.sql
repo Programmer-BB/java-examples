@@ -1,0 +1,2 @@
+insert into blog(title, content, create_time, modify_time) values ('今天下雨了','今天早上起来下起了大雨.......', now(), now());
+insert into blog(title, content, create_time, modify_time) values ('今天出太阳了','久违的太阳终于有出来了.......', now(), now());
