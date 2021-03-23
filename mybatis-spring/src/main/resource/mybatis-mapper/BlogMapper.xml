@@ -31,7 +31,7 @@
         update blog
         <set>
             <if test="blog.title != null">
-                title = #{blog.title}
+                title = #{blog.title},
             </if>
             <if test="blog.content != null">
                 content = #{blog.content}
