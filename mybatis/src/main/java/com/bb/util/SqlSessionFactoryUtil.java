@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * @author BB
@@ -17,14 +17,21 @@ import java.util.Optional;
 @Slf4j
 public class SqlSessionFactoryUtil {
 
-    public static Optional<SqlSession> getSqlSession(String resource) {
+    private static SqlSessionFactory factory;
+
+    private static void buildSqlSessionFactory(String resource) {
         try {
-            SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(getInputStream(resource));
-            return Optional.ofNullable(factory.openSession());
+            factory = new SqlSessionFactoryBuilder().build(getInputStream(resource));
         } catch (Exception e) {
             log.error("创建SqlSession异常", e);
         }
-        return Optional.empty();
+    }
+
+    public synchronized static SqlSession openSession(String resource) {
+        if (Objects.isNull(factory)) {
+            buildSqlSessionFactory(resource);
+        }
+        return factory.openSession();
     }
 
     private static InputStream getInputStream(String resource) throws IOException {

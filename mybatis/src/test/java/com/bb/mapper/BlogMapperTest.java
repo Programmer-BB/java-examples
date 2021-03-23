@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * 单表的增、删、改、查
@@ -24,8 +23,7 @@ public class BlogMapperTest {
 
     @Before
     public void before() {
-        Optional<SqlSession> opt = SqlSessionFactoryUtil.getSqlSession("mybatis-config.xml");
-        opt.ifPresent(sqlSession -> session = sqlSession);
+        session = SqlSessionFactoryUtil.openSession("mybatis-config.xml");
     }
 
     @Test
@@ -67,7 +65,8 @@ public class BlogMapperTest {
     public void testUpdateByPrimaryKey() {
         try {
             BlogMapper blogMapper = session.getMapper(BlogMapper.class);
-            int count = blogMapper.updateByPrimaryKey(1, Blog.builder()
+            int count = blogMapper.updateByPrimaryKey(2, Blog.builder()
+                    .title("测试多个参数")
                     .content("今天晚上8点老地方踢球.....")
                     .build());
             // 提交事务
@@ -90,10 +89,30 @@ public class BlogMapperTest {
     }
 
     @Test
-    public void testSelectList(){
+    public void testSelectList() {
         BlogMapper blogMapper = session.getMapper(BlogMapper.class);
         List<Blog> blogs = blogMapper.selectList(Blog.builder().id(0).build());
         assert blogs.size() == 0;
+    }
+
+    /**
+     * 一级缓存测试
+     * mybatis默认开启一级缓存，范围是：session级别，也就是同一个session内同样的查询条件的查询结果会被缓存
+     */
+    @Test
+    public void testQueryCache(){
+        SqlSession sqlSession1 = SqlSessionFactoryUtil.openSession("mybatis-config.xml");
+        BlogMapper blogMapper = sqlSession1.getMapper(BlogMapper.class);
+        Blog queryBlog = Blog.builder().id(2).build();
+        // 查询数据库
+        List<Blog> blogs1 = blogMapper.selectList(queryBlog);
+        // 查询缓存
+        List<Blog> blogs2 = blogMapper.selectList(queryBlog);
+
+        SqlSession sqlSession2 = SqlSessionFactoryUtil.openSession("mybatis-config.xml");
+        BlogMapper blogMapper2 = sqlSession2.getMapper(BlogMapper.class);
+        // 查询数据库
+        List<Blog> blogs3 = blogMapper2.selectList(queryBlog);
     }
 
     /**
