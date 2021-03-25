@@ -24,7 +24,15 @@ public abstract class Animal {
     /**
      * 年龄
      */
-    protected int age;
+    protected int age = 10;
+
+    static {
+        System.out.println("Animal的静态块");
+    }
+
+    public Animal() {
+        System.out.println("Animal的构造方法");
+    }
 
     /**
      * 叫

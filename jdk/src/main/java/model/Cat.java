@@ -11,10 +11,19 @@ import lombok.Data;
 @Data
 public class Cat extends Animal {
 
+
     /**
      * 品种
      */
-    private String variety;
+    private String variety = "普通";
+
+    static {
+        System.out.println("Cat 的静态块");
+    }
+
+    public Cat() {
+        System.out.println("Cat 构造方法");
+    }
 
     @Override
     protected void call() {
