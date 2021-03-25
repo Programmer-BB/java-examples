@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bb.mapper.author.AuthorMapper">
+
+    <resultMap id="baseResultMap" type="Author">
+        <id property="id" javaType="java.lang.Integer" column="id"  jdbcType="INTEGER"/>
+        <result property="userName" javaType="java.lang.String" column="user_name" jdbcType="VARCHAR" />
+        <result property="password" javaType="java.lang.String" column="password" jdbcType="VARCHAR" />
+        <result property="bio" javaType="java.lang.String" column="bio" jdbcType="VARCHAR" />
+        <result property="createTime" javaType="java.util.Date" column="create_time" jdbcType="TIMESTAMP" />
+        <result property="modifyTime" javaType="java.util.Date" column="modify_time" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="allColumns">
+        select id, user_name, password, bio, create_time, modify_time from author
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" parameterType="Author">
+        insert into author(user_name, password, bio)
+        values (#{author.userName}, #{author.password}, #{author.bio})
+    </insert>
+
+    <delete id="deleteByPrimaryKey">
+        delete
+        from author
+        where id = #{id}
+    </delete>
+
+    <update id="updateByPrimaryKey">
+        update author
+        <set>
+            <if test="author.userName != null">
+                user_name = #{author.userName},
+            </if>
+            <if test="author.password != null">
+                password = #{author.password}
+            </if>
+            <if test="author.bio != null">
+                bio = #{author.bio}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="selectByPrimaryKey" resultType="Author">
+        <include refid="allColumns" />
+        where id = #{id}
+    </select>
+
+    <select id="selectList" resultMap="baseResultMap">
+        <include refid="allColumns" />
+        <where>
+            <if test="author.id != null and author.id > 0">
+                id = #{author.id}
+            </if>
+            <if test="author.userName != null and author.userName !='' ">
+                and user_name = #{author.userName}
+            </if>
+            <if test="author.password != null and author.password !='' ">
+                and password = #{author.password}
+            </if>
+            <if test="author.bio != null">
+                and bio like '%' #{author.bio} '%'
+            </if>
+        </where>
+    </select>
+
+</mapper>

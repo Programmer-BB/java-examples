@@ -13,6 +13,7 @@
     <modules>
         <module>jdk</module>
         <module>mybatis</module>
+        <module>mybatis-multi-datasource</module>
         <module>mybatis-spring</module>
         <module>mybatis-spring-boot</module>
     </modules>
